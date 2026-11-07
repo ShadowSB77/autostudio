@@ -379,9 +379,38 @@ button { font: inherit; color: inherit; }
   .svc-picker { grid-template-columns: 1fr 1fr; }
 }
 
+/* ---------- feels like a native app ---------- */
+html, body { overscroll-behavior: none; }
+body { touch-action: manipulation; -webkit-text-size-adjust: 100%; }
+button, .dock, .chip, .slot, .day, .svc-card, .svc-option, .dash, .hero__cta-btn, .eyebrow { -webkit-user-select: none; user-select: none; }
+img { -webkit-touch-callout: none; -webkit-user-drag: none; }
+input, textarea, select { font-size: 16px !important; } /* no auto-zoom on iOS */
+html.is-app .sample-ribbon { padding-top: calc(6px + env(safe-area-inset-top, 0px)); }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 220ms; animation-timing-function: var(--ease); }
+
+.sheet-backdrop { position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, 0.55); display: flex; align-items: flex-end; justify-content: center; animation: fadeIn 200ms var(--ease); }
+.sheet {
+  position: relative; width: 100%; max-width: 480px; background: #15171e; border: 1px solid var(--line-2); border-bottom: 0;
+  border-radius: 26px 26px 0 0; padding: 22px 20px calc(18px + var(--safe-b)); display: grid; gap: 14px;
+  animation: sheetUp 320ms var(--ease); box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.5);
+}
+.sheet::before { content: ''; position: absolute; top: 8px; left: 50%; width: 40px; height: 4px; margin-left: -20px; border-radius: 2px; background: #3a3f4b; }
+.sheet__close { position: absolute; right: 10px; top: 10px; width: 44px; height: 44px; display: grid; place-items: center; background: none; border: 0; color: var(--muted); cursor: pointer; }
+.sheet__app { display: flex; gap: 14px; align-items: center; }
+.sheet__icon { width: 60px; height: 60px; border-radius: 15px; background: var(--surface-2); flex: none; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4); }
+.sheet__name { margin: 0; font-weight: 700; font-size: 17px; }
+.sheet__sub { margin: 0; color: var(--muted); font-size: 13.5px; }
+.sheet__title { margin: 4px 0 0; font-family: var(--font-display); font-size: 22px; font-weight: 600; }
+.sheet__steps { list-style: decimal; margin: 0; padding-left: 22px; display: grid; gap: 10px; color: #d7d9de; }
+.inline-icon { vertical-align: -4px; color: var(--accent); }
+.sheet__later { background: none; border: 0; color: var(--muted); min-height: 44px; cursor: pointer; }
+@keyframes sheetUp { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
 /* respect the user's "reduce motion" choice: no reveals, no transitions */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
   .reveal { opacity: 1; transform: none; }
   .day.is-selected, .slot.is-selected { transform: none; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none !important; }
 }

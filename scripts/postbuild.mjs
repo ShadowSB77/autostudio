@@ -30,6 +30,18 @@ for (const slug of slugs) {
   await icon(512, 'maskable-512.png', { pad: 0.12 });
   await icon(180, 'apple-touch-icon.png', { pad: 0.06 });
   await icon(64, 'favicon-64.png');
+  // iPhone launch screens (Android builds its splash from the manifest)
+  const splashes = [[1290, 2796, 430, 932, 3], [1179, 2556, 393, 852, 3], [1284, 2778, 428, 926, 3], [1170, 2532, 390, 844, 3], [1125, 2436, 375, 812, 3], [1242, 2688, 414, 896, 3], [828, 1792, 414, 896, 2], [750, 1334, 375, 667, 2]];
+  const splashLinks = [];
+  for (const [w, h, cw, ch, dpr] of splashes) {
+    const logoSize = Math.round(w * 0.28);
+    const img = await sharp(logo).resize(logoSize, logoSize, { fit: 'cover' }).composite([{
+      input: Buffer.from(`<svg width="${logoSize}" height="${logoSize}"><rect width="${logoSize}" height="${logoSize}" rx="${logoSize * 0.22}" fill="#fff"/></svg>`), blend: 'dest-in',
+    }]).png().toBuffer();
+    const file = `splash-${w}x${h}.png`;
+    await sharp({ create: { width: w, height: h, channels: 4, background: BG } }).composite([{ input: img, gravity: 'center' }]).png({ compressionLevel: 9 }).toFile(path.join(out, 'icons', file));
+    splashLinks.push(`<link rel="apple-touch-startup-image" media="(device-width: ${cw}px) and (device-height: ${ch}px) and (-webkit-device-pixel-ratio: ${dpr}) and (orientation: portrait)" href="${base}s/${slug}/icons/${file}" />`);
+  }
 
   const scope = `${base}s/${slug}/`;
   const manifest = {
@@ -41,6 +53,10 @@ for (const slug of slugs) {
     start_url: scope,
     scope,
     display: 'standalone',
+    display_override: ['standalone', 'minimal-ui'],
+    launch_handler: { client_mode: 'focus-existing' },
+    prefer_related_applications: false,
+    categories: ['business', 'lifestyle'],
     orientation: 'portrait',
     background_color: BG,
     theme_color: BG,
@@ -65,6 +81,7 @@ for (const slug of slugs) {
     `<meta name="description" content="${esc(manifest.description)}" />`,
     `<meta property="og:title" content="${esc(c.name)}" />`,
     `<meta property="og:description" content="${esc(manifest.description)}" />`,
+    ...splashLinks,
   ].join('\n    ');
   const page = html
     .replace('<!--tenant-head-->', head)

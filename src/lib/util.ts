@@ -97,3 +97,11 @@ export const rub = (v: number, currency = 'RUB') =>
   new Intl.NumberFormat('ru-RU', { style: 'currency', currency, maximumFractionDigits: 0 }).format(v);
 
 export const newKey = () => (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+
+/** short tap feedback on Android (ignored elsewhere and with reduced motion) */
+export function haptic(ms = 8) {
+  try {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    navigator.vibrate?.(ms);
+  } catch { /* unsupported */ }
+}

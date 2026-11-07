@@ -9,7 +9,7 @@ import { CheckCircle, ArrowLeft, Clock as ClockIcon } from '@phosphor-icons/reac
 import { api, ApiError, myBookings, useBusy, type Studio } from '../lib/api';
 import { bookingDays, dayKeyOf, formatDuration, formatPrice, slotsForDay, workingIntervals } from '../shared/schedule';
 import { bookingFormSchema } from '../shared/tenantConfig';
-import { fmt, newKey } from '../lib/util';
+import { fmt, haptic, newKey } from '../lib/util';
 
 interface Props {
   studio: Studio;
@@ -65,6 +65,7 @@ export function BookingCard({ studio, serviceId, onServiceChange }: Props) {
   const selected = slots.find((s) => s.start.toISOString() === slotIso) ?? null;
 
   const pickSlot = (iso: string) => {
+    haptic();
     setSlotIso(iso);
     setSubmitError(null);
     keyRef.current = newKey();
@@ -91,6 +92,7 @@ export function BookingCard({ studio, serviceId, onServiceChange }: Props) {
         ...parsed.data,
         idempotencyKey: keyRef.current,
       });
+      haptic(20);
       myBookings.add(tenant.slug, r.booking.token);
       try { localStorage.setItem('autostudio:contact', JSON.stringify({ name: parsed.data.name, phone: parsed.data.phone, car: parsed.data.car })); } catch { /* ignore */ }
       qc.invalidateQueries({ queryKey: ['busy', tenant.id] });

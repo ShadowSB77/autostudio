@@ -6,12 +6,17 @@ const slug = process.env.TENANT ?? 'graphite';
 const owner = fs.existsSync(`tenants/${slug}/.owner`) ? fs.readFileSync(`tenants/${slug}/.owner`, 'utf8').split('\n') : null;
 const run = `E2E-${Date.now().toString(36)}`;
 
-async function pickWashAndDay(page: Page, dayIndex: number) {
+async function pickWashAndDay(page: Page, dayIndex: number): Promise<number> {
   await page.goto('./');
   await page.locator('.svc-option', { hasText: 'Детейлинг-мойка' }).click();
   const days = page.locator('.day:not([disabled])');
-  await days.nth(dayIndex).click();
-  await expect(page.locator('.slot').first()).toBeVisible();
+  const n = await days.count();
+  for (let i = 0; i < n; i++) {
+    await days.nth((dayIndex + i) % n).click();
+    await expect(page.locator('.slot').first()).toBeVisible();
+    if (await page.locator('[data-testid="slot-free"]').count()) return (dayIndex + i) % n;
+  }
+  throw new Error('no free slots in the booking horizon');
 }
 
 async function book(page: Page, time: string, name: string, double = false) {
@@ -29,8 +34,7 @@ test.describe.configure({ mode: 'serial' });
 
 test('клиент записывается, видит запись; занятое время нельзя взять повторно; владелец видит запись', async ({ browser, page }) => {
   test.setTimeout(180_000);
-  const dayIndex = 4 + Math.floor(Math.random() * 12);
-  await pickWashAndDay(page, dayIndex);
+  const dayIndex = await pickWashAndDay(page, 4 + Math.floor(Math.random() * 12));
   const time = (await page.locator('[data-testid="slot-free"] .slot__time').last().textContent())!.trim();
 
   // 1) first client — double click on confirm must create exactly one booking

@@ -8,6 +8,7 @@ import { VStack } from '@astryxdesign/core/VStack';
 import { HouseSimple, ListBullets, CalendarCheck } from '@phosphor-icons/react';
 import { useStudio, type Studio } from '../lib/api';
 import { Glass } from '../components/Glass';
+import { InstallSheet, isStandalone } from '../components/InstallSheet';
 
 export type StudioCtx = { studio: Studio };
 
@@ -47,6 +48,7 @@ export function StudioLayout() {
   );
 
   useEffect(() => {
+    document.documentElement.classList.toggle('is-app', isStandalone());
     document.documentElement.style.setProperty('--accent', accent);
     document.documentElement.style.setProperty('--accent-rgb', hexToRgb(accent));
     if (studio) document.title = isAdmin ? `Кабинет · ${studio.tenant.name}` : `${studio.tenant.name} — запись онлайн`;
@@ -81,18 +83,19 @@ export function StudioLayout() {
         <main className="app__main">
           <Outlet context={{ studio } satisfies StudioCtx} />
         </main>
+        {!isAdmin && <InstallSheet name={studio.tenant.name} icon={`${import.meta.env.BASE_URL}s/${slug}/icons/icon-192.png`} />}
         {!isAdmin && (
           <div className="dock">
             <Glass as="nav" ariaLabel="Основная навигация" snapshot=".app__main" zIndex={40} refreshKey={loc.pathname} className="dock__bar" frost={4} resolution={1} tint="rgba(9, 10, 14, 0.62)">
-              <NavLink end to={base} className="dock__item">
+              <NavLink end to={base} className="dock__item" viewTransition>
                 <HouseSimple size={22} weight="duotone" aria-hidden />
                 <span>Главная</span>
               </NavLink>
-              <NavLink to={`${base}/services`} className="dock__item">
+              <NavLink to={`${base}/services`} className="dock__item" viewTransition>
                 <ListBullets size={22} weight="duotone" aria-hidden />
                 <span>Услуги</span>
               </NavLink>
-              <NavLink to={`${base}/my`} className="dock__item">
+              <NavLink to={`${base}/my`} className="dock__item" viewTransition>
                 <CalendarCheck size={22} weight="duotone" aria-hidden />
                 <span>Моя запись</span>
               </NavLink>

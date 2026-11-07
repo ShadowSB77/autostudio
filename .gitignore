@@ -1,0 +1,9 @@
+node_modules
+dist
+.env.local
+.env
+*.secret
+test-results
+playwright-report
+tenants/*/.owner
+tsconfig.tsbuildinfo

@@ -1,0 +1,55 @@
+{
+  "slug": "graphite",
+  "name": "Graphite Detailing",
+  "shortName": "Graphite",
+  "kind": "detailing",
+  "tagline": "Детейлинг-студия: полировка, керамика и защитная плёнка с гарантией результата.",
+  "accent": "#D4AF37",
+  "address": "Екатеринбург, ул. Монтажников, 4, бокс 12",
+  "mapUrl": "https://yandex.ru/maps/?text=%D0%95%D0%BA%D0%B0%D1%82%D0%B5%D1%80%D0%B8%D0%BD%D0%B1%D1%83%D1%80%D0%B3%2C%20%D1%83%D0%BB.%20%D0%9C%D0%BE%D0%BD%D1%82%D0%B0%D0%B6%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2%2C%204",
+  "phone": "+7 343 000-00-00",
+  "timezone": "Asia/Yekaterinburg",
+  "currency": "RUB",
+  "logo": "logo.png",
+  "hero": "hero.jpg",
+  "features": [
+    { "icon": "shield", "value": "3 года", "label": "гарантия на керамику" },
+    { "icon": "clock", "value": "от 2 ч", "label": "экспресс-уход за кузовом" },
+    { "icon": "medal", "value": "1 200+", "label": "автомобилей за 5 лет" }
+  ],
+  "schedule": {
+    "mon": [["09:00", "21:00"]],
+    "tue": [["09:00", "21:00"]],
+    "wed": [["09:00", "21:00"]],
+    "thu": [["09:00", "21:00"]],
+    "fri": [["09:00", "21:00"]],
+    "sat": [["10:00", "18:00"]],
+    "sun": []
+  },
+  "daysOff": ["2026-12-31", "2027-01-01"],
+  "prepMinutes": 30,
+  "slotStepMinutes": 30,
+  "bookingHorizonDays": 21,
+  "minLeadMinutes": 60,
+  "cancelHours": 12,
+  "cancelPolicy": "Бесплатная отмена не позднее чем за 12 часов до начала работ.",
+  "bays": [
+    { "code": "bay-1", "name": "Бокс 1" },
+    { "code": "bay-2", "name": "Бокс 2" }
+  ],
+  "services": [
+    { "code": "wash", "name": "Детейлинг-мойка", "description": "Двухфазная мойка, очистка дисков и проёмов, сушка.", "price": 3500, "durationMinutes": 120 },
+    { "code": "polish", "name": "Восстановительная полировка", "description": "Удаление голограмм и мелких царапин, двухэтапная полировка кузова.", "price": 18000, "priceFrom": true, "durationMinutes": 480 },
+    { "code": "ceramic", "name": "Керамическое покрытие", "description": "Подготовка, полировка и нанесение керамики в 2 слоя. Автомобиль остаётся в боксе на ночь.", "price": 45000, "priceFrom": true, "durationMinutes": 960 },
+    { "code": "ppf-front", "name": "Плёнка на переднюю часть", "description": "Полиуретановая плёнка на капот, бампер, фары и зеркала.", "price": 65000, "priceFrom": true, "durationMinutes": 1440 },
+    { "code": "interior", "name": "Химчистка салона", "description": "Глубокая чистка сидений, потолка, ковров и пластика.", "price": 12000, "durationMinutes": 360 }
+  ],
+  "gallery": [
+    { "file": "gallery/01.jpg", "caption": "Porsche 911 — керамика в 2 слоя" },
+    { "file": "gallery/02.jpg", "caption": "BMW M5 — восстановительная полировка" },
+    { "file": "gallery/03.jpg", "caption": "Mercedes G-класс — плёнка на перед" },
+    { "file": "gallery/04.jpg", "caption": "Audi RS6 — детейлинг-мойка" },
+    { "file": "gallery/05.jpg", "caption": "Lexus LX — химчистка салона" },
+    { "file": "gallery/06.jpg", "caption": "Toyota Supra — полировка фар" }
+  ]
+}

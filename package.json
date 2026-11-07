@@ -1,0 +1,52 @@
+{
+  "name": "autostudio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "packageManager": "pnpm@10.28.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build && node scripts/postbuild.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "test": "vitest run",
+    "e2e": "playwright test",
+    "tenant:new": "node scripts/tenant.mjs new",
+    "tenant:validate": "node scripts/tenant.mjs validate",
+    "tenant:publish": "node scripts/tenant.mjs publish",
+    "tenant:owner": "node scripts/tenant.mjs owner",
+    "tenant:check": "node scripts/tenant.mjs check",
+    "tenant:list": "node scripts/tenant.mjs list"
+  },
+  "dependencies": {
+    "@astryxdesign/core": "^0.7.10",
+    "@astryxdesign/theme-neutral": "^0.7.10",
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource-variable/unbounded": "^5.3.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "@stylexjs/stylex": "^0.19.1",
+    "@supabase/supabase-js": "^2.119.0",
+    "@tanstack/react-query": "^5.107.1",
+    "date-fns": "^4.4.0",
+    "date-fns-tz": "^3.2.0",
+    "liquid-gl": "^3.0.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router": "^7.18.5",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.2.1",
+    "sharp": "^0.35.5",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.6",
+    "vite-plugin-pwa": "^2.0.0",
+    "vitest": "^5.1.0",
+    "web-push": "^4.0.0",
+    "workbox-window": "^7.4.1"
+  }
+}
